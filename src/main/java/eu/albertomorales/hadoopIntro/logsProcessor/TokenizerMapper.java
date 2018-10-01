@@ -21,34 +21,30 @@ public class TokenizerMapper extends Mapper<Object, Text, Text, DoubleWritable> 
 		    String lauriStr		= matcher.group(GRUPO_URI);
 	    	Matcher matcherEstaticos = EstaticosURLPattern.matcher(lauriStr);
 	    	Matcher matcherAjaxServlet = AjaxServletURLPattern.matcher(lauriStr);
-	    	Matcher matcherAjaxServletGenerico = AjaxServletGenericoURLPattern.matcher(lauriStr);
 	    	Matcher matcherServletCexCita = ServletCexCitaURLPattern.matcher(lauriStr);
-	    	Matcher matcherServletCexCitaGenerico = ServletCexCitaGenericoURLPattern.matcher(lauriStr);
 	    	Matcher matcherImprimirEscritos = ImprimirEscritosURLPattern.matcher(lauriStr);
 	    	Matcher matcherPlantilla = PlantillaURLPattern.matcher(lauriStr);
 	    	Matcher matcherGenerico = GenericURLPattern.matcher(lauriStr);
 	    	try {				    			
 		    	if (matcherEstaticos.find()) {
-		    		lauriStr = "*** ESTATICO [.gif|.js|.css|.jpg] ***";
+		    		lauriStr = "*** ESTATICO [.gif|.js|.css|.jpg|.png] ***";
 		    	} else {	
 			    	if (matcherAjaxServlet.find()) {
 			    		String accion = matcherAjaxServlet.group(1);
 				    	lauriStr = "/hphis/AjaxServlet.servlet&classtoexecute=" 
 				    			 + accion;
-				    } else if (matcherAjaxServletGenerico.find()) {
-				    	lauriStr = "/hphis/AjaxServlet.servlet";
 				    } else if (matcherServletCexCita.find()) {
 				    	String accion = matcherServletCexCita.group(1);
 				    	lauriStr = "/hphis/ServletCexCita.servlet&classtoexecute=" 
 				    			 + accion;
-				    } else if (matcherServletCexCitaGenerico.find()) {
-				    	lauriStr = "/hphis/ServletCexCita.servlet";
 				    } else if (matcherImprimirEscritos.find()) {
 			    		String escrito = matcherImprimirEscritos.group(1);
 				    	lauriStr = "/hphis/imprimirEscritos.do?escrito=" 
 				    			 + escrito;
 				    } else if (matcherPlantilla.find()) {
-				    	lauriStr = "/hphis/edoctor/tmp/plantillaXXX.html";
+				    	String plantilla = matcherPlantilla.group(1);
+				    	lauriStr = "/hphis/edoctor/tmp/plantilla"
+				    			 + plantilla + ".html";
 				    } else if (matcherGenerico.find()) {
 				    	String base = matcherGenerico.group(1);
 				    	lauriStr = "/hphis/" + base;
