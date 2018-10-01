@@ -1,4 +1,4 @@
-package eu.albertomorales.hadoopIntro.util;
+package eu.albertomorales.hadoopIntro.pruebas;
 
 import java.io.IOException;
 

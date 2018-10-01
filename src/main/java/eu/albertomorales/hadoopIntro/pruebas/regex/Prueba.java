@@ -1,13 +1,14 @@
-package eu.albertomorales.hadoopIntro.util;
+package eu.albertomorales.hadoopIntro.pruebas.regex;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import static eu.albertomorales.hadoopIntro.logsProcessor.HCISLogPattern.*;
 
 public class Prueba {
 
 	public void doIt() {
 		String cadena = "2018-07-30	00:18:55	0.003	-	GET	/hphis/axis/HL7Filler	200	130	-	-	prohospital01:7110";
-		Matcher matcher = HCISLogPattern.matcher(cadena);
+		Matcher matcher = LinePattern.matcher(cadena);
 		if (matcher.find()) {
 		    String fechaHora	= matcher.group(GRUPO_FECHA_HORA);
 		    String tiempo 		= matcher.group(GRUPO_TIEMPO);
@@ -37,8 +38,6 @@ public class Prueba {
 		prueba.doIt();
 	}
 	
-	private final static Pattern HCISLogPattern = Pattern
-	        .compile("^(?!#)(\\S+\\s+\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+\\??\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(.+)\\s+(\\S+)\\s+(\\S+)$");
 	private static final int GRUPO_NODO = 10;
 	private static final int GRUPO_L2 = 9;
 	private static final int GRUPO_AGENTE = 8;

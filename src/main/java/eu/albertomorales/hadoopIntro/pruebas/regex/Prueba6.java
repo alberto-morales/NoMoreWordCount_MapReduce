@@ -1,13 +1,13 @@
-package eu.albertomorales.hadoopIntro.util;
+package eu.albertomorales.hadoopIntro.pruebas.regex;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import static eu.albertomorales.hadoopIntro.logsProcessor.HCISLogPattern.*;
 
 public class Prueba6 {
 
 	public void doIt() {
 		String cadena = "/hphis/ping.jsp";
-		Matcher matcher = HCISEstaticosURLPattern.matcher(cadena);
+		Matcher matcher = EstaticosURLPattern.matcher(cadena);
 		if (matcher.find()) {
 		    System.out.println("es estático? y una mierda.'");
 		}
@@ -18,7 +18,4 @@ public class Prueba6 {
 		prueba.doIt();
 	}
 	
-	private final static Pattern HCISEstaticosURLPattern = Pattern
-	        .compile("^\\S+(\\.js|\\.gif|\\.css|\\.jpg)$");
-
 }

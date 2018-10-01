@@ -1,13 +1,13 @@
-package eu.albertomorales.hadoopIntro.util;
+package eu.albertomorales.hadoopIntro.pruebas.regex;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import static eu.albertomorales.hadoopIntro.logsProcessor.HCISLogPattern.*;
 
 public class Prueba5 {
 
 	public void doIt() {
 		String cadena = "/hphis/edoctor/tmp/plantilla1533127959823.html";
-		Matcher matcher = HCISPlantillaURLPattern.matcher(cadena);
+		Matcher matcher = PlantillaURLPattern.matcher(cadena);
 		if (matcher.find()) {
 			String cual = matcher.group(1);
 		    System.out.println("url='/hphis/edoctor/tmp/plantillaXXX.html'");
@@ -20,7 +20,4 @@ public class Prueba5 {
 		prueba.doIt();
 	}
 	
-	private final static Pattern HCISPlantillaURLPattern = Pattern
-			.compile("^\\S+/edoctor/tmp/plantilla(\\d+)\\.html$");
-
 }

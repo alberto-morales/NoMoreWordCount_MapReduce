@@ -2,11 +2,12 @@ package eu.albertomorales.hadoopIntro.logsProcessor;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
+
+import static eu.albertomorales.hadoopIntro.logsProcessor.HCISLogPattern.*;
 
 public class TokenizerMapper extends Mapper<Object, Text, Text, DoubleWritable> {
 
@@ -14,18 +15,18 @@ public class TokenizerMapper extends Mapper<Object, Text, Text, DoubleWritable> 
 	private DoubleWritable tiempo = new DoubleWritable();
 
 	public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
-		Matcher matcher = HCISLogPattern.matcher(value.toString());
+		Matcher matcher = LinePattern.matcher(value.toString());
 		if (matcher.find()) {
 		    String tiempoStr	= matcher.group(GRUPO_TIEMPO);
 		    String lauriStr		= matcher.group(GRUPO_URI);
-	    	Matcher matcherEstaticos = HCISEstaticosURLPattern.matcher(lauriStr);
-	    	Matcher matcherAjaxServlet = HCISAjaxServletURLPattern.matcher(lauriStr);
-	    	Matcher matcherAjaxServletGenerico = HCISAjaxServletGenericoURLPattern.matcher(lauriStr);
-	    	Matcher matcherServletCexCita = HCISServletCexCitaURLPattern.matcher(lauriStr);
-	    	Matcher matcherServletCexCitaGenerico = HCISServletCexCitaGenericoURLPattern.matcher(lauriStr);
-	    	Matcher matcherImprimirEscritos = HCISImprimirEscritosURLPattern.matcher(lauriStr);
-	    	Matcher matcherPlantilla = HCISPlantillaURLPattern.matcher(lauriStr);
-	    	Matcher matcherGenerico = HCISGenericURLPattern.matcher(lauriStr);
+	    	Matcher matcherEstaticos = EstaticosURLPattern.matcher(lauriStr);
+	    	Matcher matcherAjaxServlet = AjaxServletURLPattern.matcher(lauriStr);
+	    	Matcher matcherAjaxServletGenerico = AjaxServletGenericoURLPattern.matcher(lauriStr);
+	    	Matcher matcherServletCexCita = ServletCexCitaURLPattern.matcher(lauriStr);
+	    	Matcher matcherServletCexCitaGenerico = ServletCexCitaGenericoURLPattern.matcher(lauriStr);
+	    	Matcher matcherImprimirEscritos = ImprimirEscritosURLPattern.matcher(lauriStr);
+	    	Matcher matcherPlantilla = PlantillaURLPattern.matcher(lauriStr);
+	    	Matcher matcherGenerico = GenericURLPattern.matcher(lauriStr);
 	    	try {				    			
 		    	if (matcherEstaticos.find()) {
 		    		lauriStr = "*** ESTATICO [.gif|.js|.css|.jpg] ***";
@@ -66,33 +67,6 @@ public class TokenizerMapper extends Mapper<Object, Text, Text, DoubleWritable> 
 			}
 	    }
 	}
-	
-	private final static Pattern HCISLogPattern = Pattern
-	        .compile("^(?!#)(\\S+\\s+\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+\\??\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(.+)\\s+(\\S+)\\s+(\\S+)$");
-
-	private final static Pattern HCISGenericURLPattern = Pattern
-	        .compile("^/hphis/(\\S+)\\?\\S+([^(&)]+)");
-
-	private final static Pattern HCISAjaxServletURLPattern = Pattern
-	        .compile("^\\S+AjaxServlet\\.servlet\\S+classtoexecute=([^(&)]+)");
-
-	private final static Pattern HCISAjaxServletGenericoURLPattern = Pattern
-	        .compile("^\\S+AjaxServlet\\.servlet\\S+");
-
-	private final static Pattern HCISServletCexCitaURLPattern = Pattern
-	        .compile("^\\S+ServletCexCita\\.servlet\\S+accion=([^(&)]+)");
-
-	private final static Pattern HCISServletCexCitaGenericoURLPattern = Pattern
-	        .compile("^\\S+ServletCexCita\\.servlet\\S+");
-
-	private final static Pattern HCISImprimirEscritosURLPattern = Pattern
-	        .compile("^\\\\S+imprimirEscritos.do\\\\?escrito=([^(&)]+)");
-	
-	private final static Pattern HCISPlantillaURLPattern = Pattern
-			.compile("^\\S+/edoctor/tmp/plantilla(\\d+)\\.html$");
-	
-	private final static Pattern HCISEstaticosURLPattern = Pattern
-	        .compile("^\\S+(\\.js|\\.gif|\\.css|\\.jpg)$");
 	
 	// private static final int GRUPO_NODO = 10;
 	// private static final int GRUPO_L2 = 9;

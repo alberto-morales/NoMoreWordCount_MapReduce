@@ -11,13 +11,13 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.ToolRunner;
 
-public class KK extends Configured implements org.apache.hadoop.util.Tool {
+public class HCISAccessLogProcessor extends Configured implements org.apache.hadoop.util.Tool {
 
 	public int run(String[] args) throws Exception {
 		Configuration conf = new Configuration();
 		conf.set("fs.defaultFS", "hdfs://bigdata:9000/");
-		Job job = Job.getInstance(conf, "HCIS Logs Proccessor");
-		job.setJarByClass(KK.class);
+		Job job = Job.getInstance(conf, "HCIS Access Log processor");
+		job.setJarByClass(HCISAccessLogProcessor.class);
 		job.setMapperClass(TokenizerMapper.class);
 		job.setReducerClass(RequestStatisticsReducer.class);
 		job.setOutputKeyClass(Text.class);
@@ -33,7 +33,7 @@ public class KK extends Configured implements org.apache.hadoop.util.Tool {
 	}
 
 	public static void main(String[] args) throws Exception {
-		KK driver = new KK();
+		HCISAccessLogProcessor driver = new HCISAccessLogProcessor();
 		int exitCode = ToolRunner.run(driver, args);
 		System.exit(exitCode);
 	}
